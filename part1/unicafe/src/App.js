@@ -14,14 +14,20 @@ const Statistics = (props) => {
 
     return(
       <dic>
-        <p>good: {props.good}</p>
-        <p>neutral: {props.neutral}</p>
-        <p>bad: {props.bad}</p>
-        <p>all: {total}</p>
-        <p>average: {average}</p>
-        <p>positive: {positive}%</p>
+        <StatisticLine text="good" value={props.good}/>
+        <StatisticLine text="neutral" value={props.neutral}/>
+        <StatisticLine text="bad" value={props.bad}/>
+        <StatisticLine text="total" value={total}/>
+        <StatisticLine text="average" value={average}/>
+        <StatisticLine text="positive" value={positive}/>
       </dic>
     )
+}
+
+const StatisticLine = (props) => {
+  return (
+    <p>{props.text}: {props.value}</p>
+  )
 }
 
 const Button = (props) => (

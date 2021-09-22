@@ -4,6 +4,11 @@ const DisplayHeader = ({text}) => <h1>{text}</h1>
 
 const Statistics = (props) => {
     const total = props.good + props.neutral + props.bad
+    if(total == 0) { 
+      return(
+        <div>No feedback given!</div>
+      )
+    }
     const average = (props.good - props.bad)/total
     const positive = props.good/total * 100
 
@@ -14,7 +19,7 @@ const Statistics = (props) => {
         <p>bad: {props.bad}</p>
         <p>all: {total}</p>
         <p>average: {average}</p>
-        <p>positive: {positive}</p>
+        <p>positive: {positive}%</p>
       </dic>
     )
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 const App = () => {
+  let biggestIndex
   const anecdotes = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
@@ -12,7 +13,21 @@ const App = () => {
   ]
   
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0))
   const OnClick = () => setSelected(Math.floor(Math.random()*anecdotes.length))
+
+  const VotesDisplay = (props) => {
+    console.log("bigindex: ", biggestIndex)
+    return (
+      <p>has {props.value} votes</p>
+    )
+  }
+
+  const VoteHandler = () => {
+    const temp = {...points}
+    temp[selected] += 1
+    setPoints(temp)
+  }
 
   const Button = (props) => {
     return(
@@ -25,7 +40,9 @@ const App = () => {
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <VotesDisplay value = {points[selected]}/>
       <Button handleClick={OnClick} text="next anecdote"/>
+      <Button handleClick={VoteHandler} text="vote for anecdote"/>
     </div>
   )
 }

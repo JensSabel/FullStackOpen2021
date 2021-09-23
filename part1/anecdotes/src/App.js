@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 const App = () => {
-  let biggestIndex
   const anecdotes = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
@@ -11,13 +10,14 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
-  
+
+  let max = 0
+  let bigIndex = null
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0))
   const OnClick = () => setSelected(Math.floor(Math.random()*anecdotes.length))
 
   const VotesDisplay = (props) => {
-    console.log("bigindex: ", biggestIndex)
     return (
       <p>has {props.value} votes</p>
     )
@@ -36,13 +36,42 @@ const App = () => {
     </button>
     )
   }
+
+  const ShowFavouriteAnecdote = () => {
+    const keys = Object.keys(points)
+    let i
+    
+    for (i = 0; i < keys.length; i++) {
+      const value = points[keys[i]]
+      if(value > max) {
+        max = value
+        bigIndex = i
+      }
+    }
+    
+    if(bigIndex === null){
+      return(
+        <p>No votes given today!</p>
+      )
+    } else {
+      return(
+        <div>
+          <p>{anecdotes[bigIndex]}</p>
+          <VotesDisplay value = {points[bigIndex]}/>
+        </div>
+      )
+    }
+  }
   
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <VotesDisplay value = {points[selected]}/>
       <Button handleClick={OnClick} text="next anecdote"/>
       <Button handleClick={VoteHandler} text="vote for anecdote"/>
+      <h1>Anecdote with most votes</h1>
+      <ShowFavouriteAnecdote props = {points}/>
     </div>
   )
 }
